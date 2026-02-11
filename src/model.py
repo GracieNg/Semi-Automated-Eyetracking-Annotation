@@ -197,8 +197,13 @@ if __name__ == "__main__":
         "auto_annotation_rate": [confident_samples / total_samples]
     })
 
+    results_tables_dir = Path("results/tables")
+    results_figures_dir = Path("results/figures")
+    results_tables_dir.mkdir(parents=True, exist_ok=True)
+    results_figures_dir.mkdir(parents=True, exist_ok=True)
+
     al_summary.to_csv(
-        "results/tables/active_learning_summary.csv",
+        results_tables_dir / "active_learning_summary.csv",
         index=False
     )
 
@@ -213,7 +218,7 @@ if __name__ == "__main__":
     plt.title("Model Confidence Distribution")
     plt.legend()
     plt.tight_layout()
-    plt.savefig("results/figures/confidence_distribution.png", dpi=300)
+    plt.savefig(results_figures_dir / "confidence_distribution.png", dpi=300)
     plt.close()
 
     out_sorted = out.sort_values("max_confidence")

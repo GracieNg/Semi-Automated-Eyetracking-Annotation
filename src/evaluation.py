@@ -62,12 +62,17 @@ if __name__ == "__main__":
     macro_f1 = f1_score(y_true, y_pred, average="macro")
     print("Macro-F1:", macro_f1)
 
+    results_tables_dir = Path("results/tables")
+    results_figures_dir = Path("results/figures")
+    results_tables_dir.mkdir(parents=True, exist_ok=True)
+    results_figures_dir.mkdir(parents=True, exist_ok=True)
+
     metrics_df = pd.DataFrame({
         "metric": ["macro_f1"],
         "value": [macro_f1]
     })
 
-    metrics_df.to_csv("results/tables/metrics.csv", index=False)
+    metrics_df.to_csv(results_tables_dir / "metrics.csv", index=False)
 
     report = classification_report(
         y_true,
@@ -76,7 +81,7 @@ if __name__ == "__main__":
     )
 
     report_df = pd.DataFrame(report).transpose()
-    report_df.to_csv("results/tables/class_report.csv")
+    report_df.to_csv(results_tables_dir / "class_report.csv")
 
     time_df = pd.DataFrame({
         "method": ["Manual annotation", "Semi-automated (AL-assisted)"],
@@ -87,14 +92,14 @@ if __name__ == "__main__":
         1 - time_df["time_minutes"] / time_df.loc[0, "time_minutes"]
     ) * 100
 
-    time_df.to_csv("results/tables/annotation_time_comparison.csv", index=False)
+    time_df.to_csv(results_tables_dir / "annotation_time_comparison.csv", index=False)
 
     plt.bar(time_df["method"], time_df["time_minutes"])
     plt.ylabel("Estimated Annotation Time (minutes)")
     plt.title("Annotation Time Comparison")
     plt.xticks(rotation=15)
     plt.tight_layout()
-    plt.savefig("results/figures/annotation_time_comparison.png", dpi=300)
+    plt.savefig(results_figures_dir / "annotation_time_comparison.png", dpi=300)
     plt.close()
 
     label_set = sorted(set(y_true) | set(y_pred))
@@ -110,7 +115,7 @@ if __name__ == "__main__":
 
     plt.title("Confusion Matrix – Random Forest Gaze Classification")
     plt.tight_layout()
-    plt.savefig("results/figures/confusion_matrix.png", dpi=300)
+    plt.savefig(results_figures_dir / "confusion_matrix.png", dpi=300)
     plt.close()
 
 def calculate_time_savings(manual_time, semi_auto_time):
