@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import subprocess
+import sys
 from pathlib import Path
 from PIL import Image
 
@@ -58,11 +59,12 @@ if st.button("Run Semi-Automated Annotation"):
         error_logs = []
         full_logs = []
         data_root = "data/sandbox"
+        py = sys.executable
         steps = [
-            ["python", "src/preprocessing.py", "--save", "--data-root", data_root],
-            ["python", "src/features.py", "--data-root", data_root],
-            ["python", "src/model.py", "--data-root", data_root],
-            ["python", "src/evaluation.py", "--data-root", data_root],
+            [py, "src/preprocessing.py", "--save", "--data-root", data_root],
+            [py, "src/features.py", "--data-root", data_root],
+            [py, "src/model.py", "--data-root", data_root],
+            [py, "src/evaluation.py", "--data-root", data_root],
         ]
         for cmd in steps:
             result = subprocess.run(cmd, capture_output=True, text=True)
