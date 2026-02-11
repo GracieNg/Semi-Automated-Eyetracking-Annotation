@@ -6,9 +6,12 @@ from pathlib import Path
 from PIL import Image
 
 st.set_page_config(layout="wide")
-st.title("Semi-Automated Eye-Tracking Annotation Dashboard")
+st.title("Semi Automated Eyetracking Annotation")
 
 st.markdown("""
+Eyetracking data annotation dashboard for semi-automated labeling
+and active learning.
+
 Upload an eye-tracking dataset to automatically generate
 behavioural annotations and review recommendations.
 """)
